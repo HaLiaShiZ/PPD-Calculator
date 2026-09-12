@@ -16,9 +16,13 @@ st.set_page_config(
 # ---------- Load assets (relative path for cloud) ----------
 @st.cache_resource
 def load_assets():
-    model = joblib.load("PPD_GBDT_simplified.pkl")
-    cat_en_to_cat = joblib.load("cat_en_to_cat.pkl")
-    scaler_params = joblib.load("scaler_params.pkl")
+    import pickle
+    with open("model.pkl", "rb") as f:
+        model = pickle.load(f)
+    with open("cat_en_to_cat.pkl", "rb") as f:
+        cat_en_to_cat = pickle.load(f)
+    with open("scaler_params.pkl", "rb") as f:
+        scaler_params = pickle.load(f)
     return model, cat_en_to_cat, scaler_params
 
 try:
