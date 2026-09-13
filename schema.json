@@ -1,0 +1,425 @@
+{
+  "features": [
+    "年龄",
+    "独生子女",
+    "婚龄",
+    "居住地",
+    "受教育程度",
+    "就业状况",
+    "医疗保险",
+    "家庭月收入",
+    "童年创伤",
+    "抑郁症史",
+    "家族抑郁",
+    "居住情况",
+    "配偶支持",
+    "公婆性别期望",
+    "孕期讲座",
+    "睡眠状况",
+    "工作担忧",
+    "经济担忧",
+    "信任倾诉",
+    "婆婆关爱",
+    "胎次",
+    "计划怀孕",
+    "分娩方式",
+    "分娩孕周",
+    "产科并发症",
+    "喂养方式",
+    "月子照顾者",
+    "产褥期异常",
+    "RBC",
+    "WBC",
+    "PLT",
+    "FT3",
+    "FT4",
+    "TSH",
+    "ALT",
+    "AST",
+    "ALT×FT4",
+    "ALT×TSH",
+    "FT4/TSH",
+    "ALT/AST",
+    "WBC/PLT",
+    "睡眠质量打分",
+    "睡眠时长打分",
+    "睡眠综合",
+    "压力合计"
+  ],
+  "user_inputs": [
+    {
+      "name": "年龄",
+      "type": "numeric",
+      "default": 30.0
+    },
+    {
+      "name": "独生子女",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "婚龄",
+      "type": "categorical",
+      "options": [
+        "1-3年",
+        "3-5年",
+        "5-10年",
+        ">10年",
+        "未婚",
+        "＜1年"
+      ]
+    },
+    {
+      "name": "居住地",
+      "type": "categorical",
+      "options": [
+        "农村",
+        "县镇",
+        "城市"
+      ]
+    },
+    {
+      "name": "受教育程度",
+      "type": "categorical",
+      "options": [
+        "初中及以下",
+        "大专及本科",
+        "研究生及以上",
+        "高中或中专"
+      ]
+    },
+    {
+      "name": "就业状况",
+      "type": "categorical",
+      "options": [
+        "其他",
+        "在岗",
+        "失业",
+        "待岗"
+      ]
+    },
+    {
+      "name": "医疗保险",
+      "type": "categorical",
+      "options": [
+        "无",
+        "有",
+        "有┋无"
+      ]
+    },
+    {
+      "name": "家庭月收入",
+      "type": "categorical",
+      "options": [
+        "1万元以上",
+        "3000-6000元",
+        "3000元以下",
+        "6000-1万元"
+      ]
+    },
+    {
+      "name": "童年创伤",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "抑郁症史",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "家族抑郁",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "居住情况",
+      "type": "categorical",
+      "options": [
+        "其他",
+        "和女方父母同住",
+        "和男方父母同住",
+        "夫妻两地分居",
+        "夫妻二人世界/夫妻孩子一家三口"
+      ]
+    },
+    {
+      "name": "配偶支持",
+      "type": "categorical",
+      "options": [
+        "一般支持",
+        "全力支持",
+        "极少支持"
+      ]
+    },
+    {
+      "name": "公婆性别期望",
+      "type": "categorical",
+      "options": [
+        "女孩",
+        "无所谓",
+        "男孩"
+      ]
+    },
+    {
+      "name": "孕期讲座",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "睡眠状况",
+      "type": "categorical",
+      "options": [
+        "入睡困难",
+        "其他",
+        "彻夜难眠",
+        "易醒",
+        "睡眠良好",
+        "胡思乱想"
+      ]
+    },
+    {
+      "name": "工作担忧",
+      "type": "categorical",
+      "options": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "name": "经济担忧",
+      "type": "categorical",
+      "options": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "name": "信任倾诉",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "婆婆关爱",
+      "type": "numeric",
+      "default": 10.0
+    },
+    {
+      "name": "胎次",
+      "type": "categorical",
+      "options": [
+        "第一胎",
+        "第三胎",
+        "第二胎",
+        "第四胎"
+      ]
+    },
+    {
+      "name": "计划怀孕",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "分娩方式",
+      "type": "categorical",
+      "options": [
+        "剖宫产分娩",
+        "阴道分娩（顺产）",
+        "顺产转为剖宫产分娩"
+      ]
+    },
+    {
+      "name": "分娩孕周",
+      "type": "categorical",
+      "options": [
+        "早产（怀孕未满37周即分娩）",
+        "足月分娩（孕38-42周分娩）",
+        "过期产（怀孕超过42周分娩）"
+      ]
+    },
+    {
+      "name": "产科并发症",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "喂养方式",
+      "type": "categorical",
+      "options": [
+        "人工喂养（奶粉）",
+        "母乳喂养",
+        "混合喂养（母乳+奶粉）"
+      ]
+    },
+    {
+      "name": "月子照顾者",
+      "type": "categorical",
+      "options": [
+        "保姆（月嫂）",
+        "其他",
+        "妈妈",
+        "婆婆",
+        "爱人"
+      ]
+    },
+    {
+      "name": "产褥期异常",
+      "type": "categorical",
+      "options": [
+        "否",
+        "是"
+      ]
+    },
+    {
+      "name": "RBC",
+      "type": "numeric",
+      "default": 3.8
+    },
+    {
+      "name": "WBC",
+      "type": "numeric",
+      "default": 10.485
+    },
+    {
+      "name": "PLT",
+      "type": "numeric",
+      "default": 200.5
+    },
+    {
+      "name": "FT3",
+      "type": "numeric",
+      "default": 3.86
+    },
+    {
+      "name": "FT4",
+      "type": "numeric",
+      "default": 10.52
+    },
+    {
+      "name": "TSH",
+      "type": "numeric",
+      "default": 1.748
+    },
+    {
+      "name": "ALT",
+      "type": "numeric",
+      "default": 10.0
+    },
+    {
+      "name": "AST",
+      "type": "numeric",
+      "default": 15.0
+    },
+    {
+      "name": "ALT×FT4",
+      "type": "numeric",
+      "default": 108.87
+    },
+    {
+      "name": "ALT×TSH",
+      "type": "numeric",
+      "default": 16.169999999999998
+    },
+    {
+      "name": "FT4/TSH",
+      "type": "numeric",
+      "default": 6.176520260680995
+    },
+    {
+      "name": "ALT/AST",
+      "type": "numeric",
+      "default": 0.6899038461538461
+    },
+    {
+      "name": "WBC/PLT",
+      "type": "numeric",
+      "default": 0.05218340215895095
+    },
+    {
+      "name": "睡眠质量打分",
+      "type": "numeric",
+      "default": 3.0
+    },
+    {
+      "name": "睡眠时长打分",
+      "type": "numeric",
+      "default": 2.0
+    },
+    {
+      "name": "睡眠综合",
+      "type": "numeric",
+      "default": 4.0
+    },
+    {
+      "name": "压力合计",
+      "type": "numeric",
+      "default": 0.0
+    }
+  ],
+  "derived_formulas": {
+    "ALT×FT4": [
+      "ALT",
+      "FT4",
+      "multiply"
+    ],
+    "ALT×TSH": [
+      "ALT",
+      "TSH",
+      "multiply"
+    ],
+    "FT4/TSH": [
+      "FT4",
+      "TSH",
+      "divide"
+    ],
+    "ALT/AST": [
+      "ALT",
+      "AST",
+      "divide"
+    ],
+    "WBC/PLT": [
+      "WBC",
+      "PLT",
+      "divide"
+    ],
+    "睡眠综合": [
+      "睡眠质量打分",
+      "睡眠时长打分",
+      "add"
+    ],
+    "压力合计": [
+      "工作担忧",
+      "经济担忧",
+      "add"
+    ]
+  },
+  "thresholds": {
+    "decision": 0.159,
+    "risk_low": 0.184,
+    "risk_high": 0.451
+  }
+}
