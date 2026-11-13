@@ -4,10 +4,10 @@ import numpy as np
 import joblib
 import os
 
-# 1. Page Configuration
+# 1. 页面基本设置
 st.set_page_config(page_title="PPD Risk Calculator", page_icon="🏥", layout="wide")
 
-# Hide Streamlit default menu and footer
+# 隐藏 Streamlit 默认的顶部菜单和页脚
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -16,21 +16,30 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# 2. Load Models
+# 2. 加载模型（加入防御性容错机制）
+feature_names = None  # 提前初始化，防止 NameError
+
 @st.cache_resource
 def load_models():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    pipe = joblib.load(os.path.join(base_dir, 'ppd_9var_pipeline.pkl'))
-    iso = joblib.load(os.path.join(base_dir, 'ppd_9var_iso.pkl'))
-    features = joblib.load(os.path.join(base_dir, 'ppd_9var_features.pkl'))
-    return pipe, iso, features
+    try:
+        # 尝试加载三个模型文件
+        pipe = joblib.load(os.path.join(base_dir, 'ppd_9var_pipeline.pkl'))
+        iso = joblib.load(os.path.join(base_dir, 'ppd_9var_iso.pkl'))
+        features = joblib.load(os.path.join(base_dir, 'ppd_9var_features.pkl'))
+        return pipe, iso, features
+    except Exception as e:
+        # 如果版本不匹配或文件缺失，捕获错误并提示
+        st.error(f"Model loading failed. Please ensure all three .pkl files are in the same directory and scikit-learn version matches. Error: {e}")
+        return None, None, None
 
-try:
-    pipe, iso, feature_names = load_models()
-except Exception as e:
-    st.error(f"Model files not found. Please ensure all three .pkl files are in the same directory. Error: {e}")
+pipe, iso, feature_names = load_models()
 
-# 3. Sidebar: Input Area
+# 如果模型加载失败，直接停止运行，避免后续代码报错
+if pipe is None:
+    st.stop()
+
+# 3. 侧边栏：输入区
 st.sidebar.header("📋 Maternal Information")
 st.sidebar.markdown("Please enter the following 8 indicators based on the 42-day postpartum follow-up (the 9th interaction variable will be calculated automatically):")
 
@@ -43,7 +52,7 @@ parity = st.sidebar.selectbox("Parity", ["Primipara", "Multipara"])
 ALT = st.sidebar.number_input("ALT (U/L)", min_value=0.0, max_value=500.0, value=15.0, step=1.0)
 FT4 = st.sidebar.number_input("FT4 (pmol/L)", min_value=1.0, max_value=50.0, value=12.0, step=0.1)
 
-# 4. Construct Features (including the 9th variable ALT×FT4)
+# 4. 构造特征（包含第9个变量 ALT×FT4）
 input_dict = {
     'age': [age],
     'mother_in_law_care': [mother_in_law_care],
@@ -51,18 +60,19 @@ input_dict = {
     'total_stress': [total_stress],
     'ALT': [ALT],
     'FT4': [FT4],
-    'ALT_FT4': [ALT * FT4],  # 9th variable: automatically calculated interaction
+    'ALT_FT4': [ALT * FT4],  # 第9个变量：自动计算交互项
     'delivery_mode_vaginal': [1 if delivery_mode == "Vaginal Delivery" else 0],
     'parity_primipara': [1 if parity == "Primipara" else 0]
 }
+# 按照模型训练时的特征顺序构建 DataFrame
 input_df = pd.DataFrame(input_dict)[feature_names]
 
-# 5. Main Interface Layout
+# 5. 主界面布局
 st.title("🏥 Postpartum Depression (PPD) Risk Calculator")
 st.markdown("### Based on a Parsimonious 9-Variable Interpretable Machine Learning Model (GBDT + Isotonic)")
 st.info("💡 **Note**: This tool is based on routine low-cost indicators and is intended for research and risk stratification purposes only. It is not a substitute for clinical diagnosis.")
 
-# Split main interface into two columns
+# 将主界面分为左右两列
 col_left, col_right = st.columns([1, 1])
 
 with col_left:
@@ -88,24 +98,24 @@ with col_left:
 with col_right:
     st.markdown("#### 📈 Prediction Results")
     
-    # Placeholder for displaying results
+    # 占位符，用于展示结果
     result_placeholder = st.empty()
     
     if st.button("🔄 Calculate PPD Risk Probability", type="primary", use_container_width=True):
-        # Prediction
+        # 进行预测
         raw_prob = pipe.predict_proba(input_df)[0, 1]
         calibrated_prob = iso.predict([raw_prob])[0]
         
-        # Dynamically render result panel
+        # 动态渲染结果面板
         with result_placeholder.container():
             st.markdown("---")
-            # Large number display
+            # 大号数字展示
             st.metric(label="Calibrated PPD Risk Probability", value=f"{calibrated_prob:.1%}")
             
-            # Progress bar display
+            # 进度条展示
             st.progress(float(calibrated_prob))
             
-            # Risk tier cards
+            # 风险分层卡片
             if calibrated_prob < 0.117:
                 st.success("🟢 **Low Risk**")
                 st.markdown("**Recommendation**: Routine postpartum follow-up. Maintain good sleep and family relationships.")
@@ -118,7 +128,7 @@ with col_right:
                 
             st.caption("Note: The model output probability is for risk ranking reference only. Please interpret in conjunction with clinical context.")
     else:
-        # Default placeholder content before clicking button
+        # 未点击按钮时的默认占位内容
         with result_placeholder.container():
             st.markdown("---")
             st.markdown("<h4 style='text-align: center; color: gray; margin-top: 50px;'>Please fill in the data on the left and click the button above to generate the risk report</h4>", unsafe_allow_html=True)
